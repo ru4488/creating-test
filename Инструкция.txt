@@ -1,0 +1,11 @@
+Должене быть установлен Docker
+
+запуск postgres через Docker
+docker run --rm --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5400:5432 -v vol_1:/var/lib/postgresql/data postgres
+password docker
+
+При запуске кода login_to_the_program - возможно записать нового пользователя или зарегистрировать нового 
+
+При запуске creating test - возможн добавить новый тест
+
+При запуске add and edit - пока только возможно добавлять новые вопросы 

@@ -11,24 +11,31 @@ def add_and_edit(user_id):
 
     if choice == "1":
         selected_test_id = choise_name_test(user_id)
-        add_question(selected_test_id) 
+        # question_fit = correct_question(selected_test_id)
+        # creat_new_question(question_fit , selected_test_id)
+        cicle_of_additions(selected_test_id)
 
 
-def add_question(selected_test_id):
+def cicle_of_additions(selected_test_id):
+    stop_word = "1" 
+    while stop_word != "0":
+        question_fit = correct_question(selected_test_id)
+        creat_new_question(question_fit , selected_test_id)
+        print("Для выхода введите '0'")
+        print("Для добавления вопросов нажмите любую кнопку")
+        stop_word = input(":  ")
+
+
+
+# проверка, присутствует ли такой вопрос в этом тесте или состоит он хотя бы из одного символа
+
+def correct_question(selected_test_id):
     new_question = input('Введите вопрос: ').lower().strip()
-    question_fit = correct_question(new_question , selected_test_id)
-    creat_new_question(question_fit , selected_test_id)
-    
-
-
-
-def correct_question(new_question , selected_test_id):
     question_list = [] 
     question_list = new_question.split()
     presence = presence_question(new_question , selected_test_id)
 
     while len(question_list) == 0 or len(presence) == 0:                  
-        
         if len(question_list) == 0:
             print("Вопрос должен состоять хотбы из одного слова")
         else:
@@ -87,6 +94,7 @@ def user_tests(user_id):
     all_id = ''
     for row in all_test:      
         name += ( f'id теста - {row.id}, навзвание теста - {row.name_of_test}; \n')
+        print(name)
         all_id += str(row.id)   
     print("Вам доступны тесты:")
     print(name)

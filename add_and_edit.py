@@ -3,16 +3,11 @@ from db import db_session
 from sqlalchemy import and_
 
 
-
-
-def add_and_edit(user_id):
-    user_tests(user_id)
+def add_question(user_id):
     choice = add_or_edit()
 
     if choice == "1":
         selected_test_id = choise_name_test(user_id)
-        # question_fit = correct_question(selected_test_id)
-        # creat_new_question(question_fit , selected_test_id)
         cicle_of_additions(selected_test_id)
 
 
@@ -22,8 +17,29 @@ def cicle_of_additions(selected_test_id):
         question_fit = correct_question(selected_test_id)
         creat_new_question(question_fit , selected_test_id)
         print("Для выхода введите '0'")
-        print("Для добавления вопросов нажмите любую кнопку")
+        print("Для добавления вопросов введите ¨1")
+        print("Для просмотра существеющих вопросов введите ¨3")
         stop_word = input(":  ")
+        if stop_word == "3":
+            added_questions(selected_test_id , )
+            
+
+
+
+def added_questions(selected_test_id):
+    all_question = Question.query.filter(Question.test_id == selected_test_id).all()
+    selected_test = Test_name.query.filter(Test_name.id == selected_test_id).first()
+    name = ''
+
+    for row in all_question:      
+        name += ( f' {row.question}; \n')
+
+
+    print(f'В тест - {selected_test.id} добавлены вопросы:')
+    print(name)
+
+
+
 
 
 
@@ -37,7 +53,7 @@ def correct_question(selected_test_id):
 
     while len(question_list) == 0 or len(presence) == 0:                  
         if len(question_list) == 0:
-            print("Вопрос должен состоять хотбы из одного слова")
+            print("Вопрос должен состоять хотя бы из одного слова")
         else:
             print("Такой вопрос в тесте уже есть")
 
@@ -73,7 +89,7 @@ def creat_new_question(question_fit , selected_test_id):
 # выбор нужного теста 
 
 def choise_name_test(user_id):
-    all_id = user_tests(user_id)
+    # all_id = user_tests(user_id)
     user_choise_id = input("введите id теста: ").strip()
     while user_choise_id not in all_id:
         print("Теста с таким id у вас нет")
@@ -83,10 +99,22 @@ def choise_name_test(user_id):
     print(f"Имя теста {all_test.name_of_test}")
     return user_choise_id
 
+# Все тесты вопросы 
+
+def user_(user_id):
+    all_question = Question.query.filter(Question.test_id == selected_test_id).all()
+    name = ''
+
+    for row in all_question:      
+        name += ( f'id теста - {row.id}, навзвание теста - {row.name_of_test}; \n')
+
+
+    print(f'В тест - {row.id} добавлены вопросы:')
+    print(name)
 
 
 
-# Все тесты пользователя, возвращает все id пользователя 
+# Все тесты пользователя, возвращает все id тестов пользователя 
 
 def user_tests(user_id):
     all_test = Test_name.query.filter(Test_name.user_id == user_id).all()
@@ -100,20 +128,9 @@ def user_tests(user_id):
     print(name)
     return all_id
 
-# меню выбора
-
-def add_or_edit():
-    print("Для добавления вопросов в тест введите - 1 ")
-    print("Для редактирования вопросов введите - 2")
-    print("Для удаления текста введите - 3")
-    choice = input("Введите число:  ").strip()
-    menu_feature = '123'
-    while choice not in menu_feature: 
-        choice = input("Введите число:  ").strip()
-    return choice
-
 
 
 if __name__ == '__main__':
     user_id = 1
-    add_and_edit(user_id)
+    user_tests(user_id)
+    add_question(user_id)
